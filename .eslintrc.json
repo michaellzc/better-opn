@@ -1,0 +1,10 @@
+{
+  "extends": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 9
+  },
+  "rules": {
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
+  }
+}
