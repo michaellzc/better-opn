@@ -1,6 +1,6 @@
 {
   "name": "better-opn",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A better opn. Reuse the same tab on Chrome for 👨‍💻.",
   "main": "index.js",
   "repository": "git@github.com:ExiaSR/better-opn.git",
@@ -21,14 +21,14 @@
     "README.md",
     "yarn.lock"
   ],
+  "dependencies": {
+    "opn": "^5.4.0"
+  },
   "devDependencies": {
     "eslint": "^5.2.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.2",
-    "opn": "^5.3.0",
+    "opn": "^5.4.0",
     "prettier": "^1.13.7"
-  },
-  "peerDependencies": {
-    "opn": "^5.3.0"
   }
 }
