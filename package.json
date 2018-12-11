@@ -2,7 +2,7 @@
   "name": "better-opn",
   "version": "0.1.2",
   "description": "A better opn. Reuse the same tab on Chrome for 👨‍💻.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "git@github.com:ExiaSR/better-opn.git",
   "author": "Michael Lin <linzichunzf@hotmail.com>",
   "license": "MIT",
