@@ -4,15 +4,10 @@
 
 ## Install
 
-`opn` is a peer dependency, make sure you install it as well.
+> `$ yarn add better-opn`
 
-```bash
-yarn add opn better-opn
-```
+> `$ npm install better-opn`
 
-```bash
-npm install opn better-opn
-```
 
 ## Usage
 
@@ -26,4 +21,4 @@ opn('http://localhost:3000');
 
 ## Author
 
-- [Michael Lin](mailto:linzichunzf@hotmail.com)
+- [Michael Lin](https://michaellin.me)
