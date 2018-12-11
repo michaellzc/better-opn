@@ -14,17 +14,26 @@
     "launch",
     "browser"
   ],
+  "engines": {
+    "node": ">6.0.0"
+  },
   "files": [
-    "index.js",
+    "dist",
     "openChrome.applescript",
     "package.json",
     "README.md",
     "yarn.lock"
   ],
+  "scripts": {
+    "build": "babel src -d dist"
+  },
   "dependencies": {
     "opn": "^5.4.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
     "eslint": "^5.2.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.2",
