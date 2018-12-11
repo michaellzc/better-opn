@@ -40,13 +40,15 @@ const startBrowserProcess = (browser, url, opts = {}) => {
       // Try our best to reuse existing tab
       // on OS X Google Chrome with AppleScript
       execSync('ps cax | grep "Google Chrome"');
-      execSync('osascript ../openChrome.applescript "' + encodeURI(url) + '"', {
+      execSync(`osascript ../openChrome.applescript "${encodeURI(url)}"`, {
         cwd: __dirname,
         stdio: 'ignore',
       });
-      return true;
+
+      return Promise.resolve(true);
     } catch (err) {
       // Ignore errors.
+      // It it breaks, it will fallback to `opn` anyway
     }
   }
 
@@ -60,14 +62,9 @@ const startBrowserProcess = (browser, url, opts = {}) => {
 
   // Fallback to opn
   // (It will always open new tab)
-  try {
-    const options = { app: browser, ...opts };
-    console.debug(options);
-    require('opn')(url, options).catch(() => {}); // Prevent `unhandledRejection` error.
-    return true;
-  } catch (err) {
-    return false;
-  }
+  const options = { app: browser, ...opts };
+  console.debug(options);
+  return require('opn')(url, options);
 };
 
 module.exports = (target, opts) => {
