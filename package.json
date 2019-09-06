@@ -18,7 +18,7 @@
     "browser"
   ],
   "engines": {
-    "node": ">6.0.0"
+    "node": ">8.0.0"
   },
   "files": [
     "dist",
@@ -33,7 +33,7 @@
     "format": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "opn": "^5.4.0"
+    "open": "^6.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
@@ -42,7 +42,6 @@
     "eslint": "^5.10.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "opn": "^5.4.0",
     "prettier": "^1.13.7"
   }
 }

@@ -64,7 +64,7 @@ const startBrowserProcess = (browser, url, opts = {}) => {
   // (It will always open new tab)
   const options = { app: browser, ...opts };
   console.debug(options);
-  return require('opn')(url, options);
+  return require('open')(url, options);
 };
 
 module.exports = (target, opts) => {
