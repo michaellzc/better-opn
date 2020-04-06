@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const {execSync} = require('child_process');
 
 const OSX_CHROME = 'google chrome';
 
@@ -13,9 +13,9 @@ const getBrowserEnv = () => {
   // See https://github.com/sindresorhus/open#app for documentation.
   const value = process.env.BROWSER;
   const args = process.env.BROWSER_ARGS
-  ? process.env.BROWSER_ARGS.split(' ')
-  : [];
-  let action
+    ? process.env.BROWSER_ARGS.split(' ')
+    : [];
+  let action;
   if (!value) {
     // Default.
     action = Actions.BROWSER;
@@ -25,11 +25,12 @@ const getBrowserEnv = () => {
     action = Actions.BROWSER;
   }
 
-  return { action, value, args };
+  return {action, value, args};
 };
 
 // Copy from
 // https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/openBrowser.js#L64
+// eslint-disable-next-line unicorn/prevent-abbreviations
 const startBrowserProcess = (browser, url, opts = {}, args = []) => {
   // If we're on OS X, the user hasn't specifically
   // requested a different browser, we can try opening
@@ -49,18 +50,24 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
       'Vivaldi',
       'Chromium',
     ];
-    for (let chromiumBrowser of supportedChromiumBrowsers) {
+    for (const chromiumBrowser of supportedChromiumBrowsers) {
       try {
         // Try our best to reuse existing tab
         // on OSX Chromium-based browser with AppleScript
         execSync('ps cax | grep "' + chromiumBrowser + '"');
-        execSync(`osascript ../openChrome.applescript "${encodeURI(url)}" "${chromiumBrowser}"`, {
-          cwd: __dirname,
-          stdio: 'ignore',
-        });
+        execSync(
+          `osascript ../openChrome.applescript "${encodeURI(
+            url
+          )}" "${chromiumBrowser}"`,
+          {
+            cwd: __dirname,
+            stdio: 'ignore',
+          }
+        );
 
         return Promise.resolve(true);
-      } catch (err) {
+        // eslint-disable-next-line no-unused-vars
+      } catch (error) {
         // Ignore errors.
         // It it breaks, it will fallback to `opn` anyway
       }
@@ -82,18 +89,18 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
 
   // Fallback to opn
   // (It will always open new tab)
-  const options = { app: browser, url: true, wait: false, ...opts };
+  const options = {app: browser, url: true, wait: false, ...opts};
   return require('open')(url, options);
 };
 
-module.exports = (target, opts) => {
-  const { action, value, args } = getBrowserEnv();
+module.exports = (target, options) => {
+  const {action, value, args} = getBrowserEnv();
   switch (action) {
     case Actions.NONE:
       // Special case: BROWSER="none" will prevent opening completely.
       return false;
     case Actions.BROWSER:
-      return startBrowserProcess(value, target, opts, args);
+      return startBrowserProcess(value, target, options, args);
     default:
       throw new Error('Not implemented.');
   }
