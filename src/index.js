@@ -12,20 +12,25 @@ const getBrowserEnv = () => {
   // It is specific to the operating system.
   // See https://github.com/sindresorhus/open#app for documentation.
   const value = process.env.BROWSER;
-  let action = Actions.BROWSER;
+  const args = process.env.BROWSER_ARGS
+  ? process.env.BROWSER_ARGS.split(' ')
+  : [];
+  let action
   if (!value) {
     // Default.
     action = Actions.BROWSER;
   } else if (value.toLowerCase() === 'none') {
     action = Actions.NONE;
+  } else {
+    action = Actions.BROWSER;
   }
 
-  return { action, value };
+  return { action, value, args };
 };
 
 // Copy from
 // https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/openBrowser.js#L64
-const startBrowserProcess = (browser, url, opts = {}) => {
+const startBrowserProcess = (browser, url, opts = {}, args = []) => {
   // If we're on OS X, the user hasn't specifically
   // requested a different browser, we can try opening
   // Chrome with AppleScript. This lets us reuse an
@@ -82,13 +87,13 @@ const startBrowserProcess = (browser, url, opts = {}) => {
 };
 
 module.exports = (target, opts) => {
-  const { action, value } = getBrowserEnv();
+  const { action, value, args } = getBrowserEnv();
   switch (action) {
     case Actions.NONE:
       // Special case: BROWSER="none" will prevent opening completely.
       return false;
     case Actions.BROWSER:
-      return startBrowserProcess(value, target, opts);
+      return startBrowserProcess(value, target, opts, args);
     default:
       throw new Error('Not implemented.');
   }
