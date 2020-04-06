@@ -10,17 +10,16 @@ const Actions = Object.freeze({
 const getBrowserEnv = () => {
   // Attempt to honor this environment variable.
   // It is specific to the operating system.
-  // See https://github.com/sindresorhus/opn#app for documentation.
+  // See https://github.com/sindresorhus/open#app for documentation.
   const value = process.env.BROWSER;
-  let action;
+  let action = Actions.BROWSER;
   if (!value) {
     // Default.
     action = Actions.BROWSER;
   } else if (value.toLowerCase() === 'none') {
     action = Actions.NONE;
-  } else {
-    action = Actions.BROWSER;
   }
+
   return { action, value };
 };
 
@@ -31,24 +30,35 @@ const startBrowserProcess = (browser, url, opts = {}) => {
   // requested a different browser, we can try opening
   // Chrome with AppleScript. This lets us reuse an
   // existing tab when possible instead of creating a new one.
-  const shouldTryOpenChromeWithAppleScript =
+  const shouldTryOpenChromiumWithAppleScript =
     process.platform === 'darwin' &&
     (typeof browser !== 'string' || browser === OSX_CHROME);
 
-  if (shouldTryOpenChromeWithAppleScript) {
-    try {
-      // Try our best to reuse existing tab
-      // on OS X Google Chrome with AppleScript
-      execSync('ps cax | grep "Google Chrome"');
-      execSync(`osascript ../openChrome.applescript "${encodeURI(url)}"`, {
-        cwd: __dirname,
-        stdio: 'ignore',
-      });
+  if (shouldTryOpenChromiumWithAppleScript) {
+    // Will use the first open browser found from list
+    const supportedChromiumBrowsers = [
+      'Google Chrome Canary',
+      'Google Chrome',
+      'Microsoft Edge',
+      'Brave Browser',
+      'Vivaldi',
+      'Chromium',
+    ];
+    for (let chromiumBrowser of supportedChromiumBrowsers) {
+      try {
+        // Try our best to reuse existing tab
+        // on OSX Chromium-based browser with AppleScript
+        execSync('ps cax | grep "' + chromiumBrowser + '"');
+        execSync(`osascript ../openChrome.applescript "${encodeURI(url)}" "${chromiumBrowser}"`, {
+          cwd: __dirname,
+          stdio: 'ignore',
+        });
 
-      return Promise.resolve(true);
-    } catch (err) {
-      // Ignore errors.
-      // It it breaks, it will fallback to `opn` anyway
+        return Promise.resolve(true);
+      } catch (err) {
+        // Ignore errors.
+        // It it breaks, it will fallback to `opn` anyway
+      }
     }
   }
 
@@ -60,10 +70,14 @@ const startBrowserProcess = (browser, url, opts = {}) => {
     browser = undefined;
   }
 
+  // If there are arguments, they must be passed as array with the browser
+  if (typeof browser === 'string' && args.length > 0) {
+    browser = [browser].concat(args);
+  }
+
   // Fallback to opn
   // (It will always open new tab)
-  const options = { app: browser, ...opts };
-  console.debug(options);
+  const options = { app: browser, url: true, ...opts };
   return require('open')(url, options);
 };
 

@@ -33,7 +33,7 @@
     "format": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "open": "^6.4.0"
+    "open": "^7.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",
