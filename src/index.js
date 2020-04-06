@@ -82,7 +82,7 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
 
   // Fallback to opn
   // (It will always open new tab)
-  const options = { app: browser, url: true, ...opts };
+  const options = { app: browser, url: true, wait: false, ...opts };
   return require('open')(url, options);
 };
 
