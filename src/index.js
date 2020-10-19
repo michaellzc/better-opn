@@ -29,21 +29,17 @@ const getBrowserEnv = () => {
 };
 
 const normalizeURLToMatch = target => {
-  if (process.env.OPEN_MATCH_HOST_ONLY === 'true') {
-    // We may encounter URL parse error but want to fallback to default behavior
-    try {
-      // Url module is deprecated on newer version of NodeJS, only use it when URL class is not supported (like Node 8)
-      const URL =
-        // eslint-disable-next-line node/prefer-global/url
-        typeof global.URL === 'undefined' ? require('url').URL : global.URL;
-      const url = new URL(target);
-      return url.origin;
-    } catch {
-      return target;
-    }
+  // We may encounter URL parse error but want to fallback to default behavior
+  try {
+    // Url module is deprecated on newer version of NodeJS, only use it when URL class is not supported (like Node 8)
+    const URL =
+      // eslint-disable-next-line node/prefer-global/url
+      typeof global.URL === 'undefined' ? require('url').URL : global.URL;
+    const url = new URL(target);
+    return url.origin;
+  } catch {
+    return target;
   }
-
-  return target;
 };
 
 // Copy from
@@ -74,8 +70,10 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
         // on OSX Chromium-based browser with AppleScript
         execSync('ps cax | grep "' + chromiumBrowser + '"');
         execSync(
-          `osascript ../openChrome.applescript "${encodeURI(url)}" "${encodeURI(
-            normalizeURLToMatch(url)
+          `osascript ../openChrome.applescript "${encodeURI(
+            process.env.OPEN_MATCH_HOST_ONLY === 'true'
+              ? normalizeURLToMatch(url)
+              : url
           )}" "${chromiumBrowser}"`,
           {
             cwd: __dirname,
