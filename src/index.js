@@ -28,6 +28,20 @@ const getBrowserEnv = () => {
   return {action, value, args};
 };
 
+const normalizeURLToMatch = target => {
+  // We may encounter URL parse error but want to fallback to default behavior
+  try {
+    // Url module is deprecated on newer version of NodeJS, only use it when URL class is not supported (like Node 8)
+    const URL =
+      // eslint-disable-next-line node/prefer-global/url
+      typeof global.URL === 'undefined' ? require('url').URL : global.URL;
+    const url = new URL(target);
+    return url.origin;
+  } catch {
+    return target;
+  }
+};
+
 // Copy from
 // https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/openBrowser.js#L64
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -57,7 +71,9 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
         execSync('ps cax | grep "' + chromiumBrowser + '"');
         execSync(
           `osascript ../openChrome.applescript "${encodeURI(
-            url
+            process.env.OPEN_MATCH_HOST_ONLY === 'true'
+              ? normalizeURLToMatch(url)
+              : url
           )}" "${chromiumBrowser}"`,
           {
             cwd: __dirname,
