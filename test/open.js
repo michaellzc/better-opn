@@ -1,3 +1,3 @@
-const opn = require('../dist/index');
+const opn = require('../src/index');
 
 opn('http://localhost:8000');
