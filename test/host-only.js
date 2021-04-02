@@ -1,4 +1,4 @@
-const opn = require('../src/index');
+const opn = require('../src');
 
 // Run test/open.js first, then run this to ensure tab is reused
 process.env.OPEN_MATCH_HOST_ONLY = 'true';
