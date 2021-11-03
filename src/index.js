@@ -70,11 +70,11 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
         // on OSX Chromium-based browser with AppleScript
         execSync('ps cax | grep "' + chromiumBrowser + '"');
         execSync(
-          `osascript ../openChrome.applescript "${encodeURI(url)}" ${
+          `osascript ../openChrome.applescript "${encodeURI(url)}" "${
             process.env.OPEN_MATCH_HOST_ONLY === 'true'
               ? encodeURI(normalizeURLToMatch(url))
               : encodeURI(url)
-          } "${chromiumBrowser}"`,
+          }" "${chromiumBrowser}"`,
           {
             cwd: __dirname,
             stdio: 'ignore',
