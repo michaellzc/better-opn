@@ -1,6 +1,6 @@
 {
   "name": "better-opn",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A better opn. Reuse the same tab on Chrome for 👨‍💻.",
   "main": "dist/index.js",
   "repository": {
@@ -37,10 +37,10 @@
     ]
   },
   "ava": {
-		"files": [
-			"tests/**/*",
-			"!test/host-only.js"
-		]
+    "files": [
+      "tests/**/*",
+      "!test/host-only.js"
+    ]
   },
   "scripts": {
     "build": "babel src -d dist",
