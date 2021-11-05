@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.1] - 2021-11-04
+
+### Changed
+
+- Urls are opened twice (#33) @jfirebaugh
+
 ## [2.1.1] - 2020-10-21
 
 ### Changed
