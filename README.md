@@ -11,7 +11,7 @@
 
 ## Usage
 
-If you wish to overwrite the default browser, override `BROWSER` environment variable to your desire browser name (name is platform dependent).
+If you wish to overwrite the default browser, override `BROWSER` environment variable to your desired browser name (name is platform dependent).
 
 ```js
 const opn = require('better-opn');
