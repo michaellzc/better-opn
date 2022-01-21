@@ -98,14 +98,13 @@ const startBrowserProcess = (browser, url, opts = {}, args = []) => {
     browser = undefined;
   }
 
-  // If there are arguments, they must be passed as array with the browser
-  if (typeof browser === 'string' && args.length > 0) {
-    browser = [browser].concat(args);
-  }
-
   // Fallback to opn
   // (It will always open new tab)
-  const options = {app: browser, url: true, wait: false, ...opts};
+  const options = {
+    app: {name: browser, arguments: args},
+    wait: false,
+    ...opts,
+  };
   return require('open')(url, options);
 };
 
